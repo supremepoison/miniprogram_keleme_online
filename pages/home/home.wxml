@@ -1,18 +1,47 @@
 <view class="home-container">
-  <view class="image-grid">
-    <view class="image-card" wx:for="{{imageList}}" wx:key="id">
-      <view class="image-placeholder {{item.gradient}}"></view>
-      <view class="image-info">
-        <text class="image-prompt">{{item.prompt}}</text>
-        <view class="user-info">
-          <view class="avatar {{item.avatarColor}}">
-            <text class="avatar-text">{{item.author.charAt(0)}}</text>
-          </view>
-          <text class="author-name">{{item.author}}</text>
-        </view>
-      </view>
-    </view>
-  </view>
+   <view class="image-grid" wx:if="{{imageList.length > 0}}">
+     <view class="image-card" wx:for="{{imageList}}" wx:key="id">
+       <view wx:if="{{item.imageUrl}}" class="image-wrapper">
+         <image
+           src="{{item.imageUrl}}"
+           mode="aspectFill"
+           binderror="onImageError"
+           bindload="onImageLoad"
+           data-id="{{item.id}}"
+           data-url="{{item.imageUrl}}"
+           bindtap="onImageTap"
+         />
+       </view>
+       <view wx:else class="image-placeholder gradient-1">
+         <t-icon name="image" size="96rpx" color="rgba(255, 255, 255, 0.3)" />
+       </view>
+       <view class="image-info">
+         <text class="image-prompt">{{item.prompt}}</text>
+         <view class="user-info">
+           <image wx:if="{{item.userAvatar}}" src="{{item.userAvatar}}" class="user-avatar" mode="aspectFill" />
+           <view wx:else class="avatar avatar-default">
+             <text class="avatar-text">{{item.userNickName.charAt(0) || 'U'}}</text>
+           </view>
+           <text class="author-name">{{item.userNickName}}</text>
+           <text class="upload-time">{{item.time}}</text>
+         </view>
+       </view>
+     </view>
+   </view>
+
+   <view class="empty-state" wx:else>
+     <t-icon name="image" size="128rpx" color="#d1d5db" />
+     <text class="empty-text">还没有作品</text>
+     <text class="empty-desc">快去创作你的第一幅 AI 画作吧</text>
+   </view>
+
+   <view class="loading-more" wx:if="{{loading}}">
+     <t-loading theme="circular" size="40rpx" text="正在加载更多..." />
+   </view>
+
+   <view class="no-more" wx:if="{{!hasMore && imageList.length > 0}}">
+     没有更多了
+   </view>
 
   <view class="loading-more" wx:if="{{loading}}">
     <t-loading theme="circular" size="40rpx" text="正在加载更多..." />

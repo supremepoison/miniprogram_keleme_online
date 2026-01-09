@@ -1,0 +1,23 @@
+<view class="preview-container">
+  <image
+    src="{{imageUrl}}"
+    mode="aspectFit"
+    class="preview-image"
+    bindload="onImageLoad"
+    binderror="onImageError"
+    show-menu-by-longpress="{{true}}"
+  />
+
+  <view class="close-button" bindtap="onClose">
+    <t-icon name="close" size="48rpx" color="#fff" />
+  </view>
+
+  <view class="download-button" bindtap="onDownload">
+    <t-icon name="download" size="48rpx" color="#fff" />
+    <text class="download-text">保存图片</text>
+  </view>
+
+  <view class="prompt-info" wx:if="{{prompt}}">
+    <text class="prompt-text">{{prompt}}</text>
+  </view>
+</view>

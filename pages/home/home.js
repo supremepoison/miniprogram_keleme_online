@@ -1,54 +1,20 @@
 Page({
   data: {
-    imageList: [
-      {
-        id: 1,
-        prompt: '赛博朋克风格的未来城市',
-        author: '小明',
-        avatarColor: 'avatar-color-1',
-        gradient: 'gradient-1'
-      },
-      {
-        id: 2,
-        prompt: '梦幻森林中的精灵',
-        author: '小红',
-        avatarColor: 'avatar-color-2',
-        gradient: 'gradient-2'
-      },
-      {
-        id: 3,
-        prompt: '日落时分的海边风景',
-        author: '小李',
-        avatarColor: 'avatar-color-3',
-        gradient: 'gradient-3'
-      },
-      {
-        id: 4,
-        prompt: '夜晚的霓虹街道',
-        author: '小王',
-        avatarColor: 'avatar-color-4',
-        gradient: 'gradient-4'
-      },
-      {
-        id: 5,
-        prompt: '宁静的湖面倒影',
-        author: '小张',
-        avatarColor: 'avatar-color-5',
-        gradient: 'gradient-5'
-      },
-      {
-        id: 6,
-        prompt: '盛开的花海',
-        author: '小陈',
-        avatarColor: 'avatar-color-6',
-        gradient: 'gradient-6'
-      }
-    ],
-    loading: false
+    imageList: [],
+    loading: false,
+    hasMore: true,
+    page: 1,
+    pageSize: 10
   },
 
   onLoad() {
     this.loadMoreImages();
+  },
+
+  onShow() {
+    if (this.data.page === 1) {
+      this.loadMoreImages();
+    }
   },
 
   onReachBottom() {
@@ -56,9 +22,14 @@ Page({
   },
 
   onPullDownRefresh() {
-    setTimeout(() => {
+    this.setData({
+      imageList: [],
+      page: 1,
+      hasMore: true
+    });
+    this.loadMoreImages().then(() => {
       wx.stopPullDownRefresh();
-    }, 1000);
+    });
   },
 
   onCreateClick() {
@@ -68,32 +39,94 @@ Page({
   },
 
   loadMoreImages() {
-    if (this.data.loading) return;
+    return new Promise((resolve, reject) => {
+      if (this.data.loading || !this.data.hasMore) {
+        resolve();
+        return;
+      }
 
-    this.setData({ loading: true });
+      this.setData({ loading: true });
 
-    setTimeout(() => {
-      const newImages = [
-        {
-          id: this.data.imageList.length + 1,
-          prompt: '星空下的城堡',
-          author: '用户' + (this.data.imageList.length + 1),
-          avatarColor: `avatar-color-${(this.data.imageList.length % 6) + 1}`,
-          gradient: `gradient-${(this.data.imageList.length % 6) + 1}`
-        },
-        {
-          id: this.data.imageList.length + 2,
-          prompt: '春日的樱花大道',
-          author: '用户' + (this.data.imageList.length + 2),
-          avatarColor: `avatar-color-${(this.data.imageList.length + 1 % 6) + 1}`,
-          gradient: `gradient-${(this.data.imageList.length + 1 % 6) + 1}`
+      const { page, pageSize } = this.data;
+
+      wx.cloud.callFunction({
+        name: 'getGallery',
+        data: {
+          page,
+          pageSize
         }
-      ];
+      }).then(result => {
+        if (result.result.code === 0) {
+          const { images, hasMore } = result.result.data;
+          const newImageList = images.map(img => ({
+            ...img,
+            time: this.formatTime(img.createTime)
+          }));
 
-      this.setData({
-        imageList: [...this.data.imageList, ...newImages],
-        loading: false
+          this.setData({
+            imageList: this.data.page === 1 ? newImageList : [...this.data.imageList, ...newImageList],
+            hasMore: hasMore,
+            page: page + 1,
+            loading: false
+          });
+          resolve();
+        } else {
+          this.setData({ loading: false });
+          wx.showToast({
+            title: result.result.message || '加载失败',
+            icon: 'error'
+          });
+          reject();
+        }
+      }).catch(err => {
+        this.setData({ loading: false });
+        console.error('加载图片失败:', err);
+        wx.showToast({
+          title: '加载失败',
+          icon: 'error'
+        });
+        reject();
       });
-    }, 1000);
+    });
+  },
+
+  formatTime(date) {
+    if (!date) return '';
+
+    const now = new Date();
+    const targetDate = new Date(date);
+    const diff = now - targetDate;
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days}天前`;
+    } else if (hours > 0) {
+      return `${hours}小时前`;
+    } else if (minutes > 0) {
+      return `${minutes}分钟前`;
+    } else {
+      return '刚刚';
+    }
+  },
+
+  onImageError(e) {
+    console.error('图片加载失败:', e.currentTarget.dataset.id, e.detail);
+  },
+
+  onImageLoad(e) {
+    console.log('图片加载成功:', e.currentTarget.dataset.id);
+  },
+
+  onImageTap(e) {
+    const { url } = e.currentTarget.dataset;
+    if (!url) return;
+
+    wx.navigateTo({
+      url: `/pages/image-preview/image-preview?imageUrl=${encodeURIComponent(url)}&prompt=${encodeURIComponent(this.data.imageList.find(img => img.imageUrl === url)?.prompt || '')}`
+    });
   }
 });

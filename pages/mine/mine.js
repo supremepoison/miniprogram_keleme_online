@@ -6,44 +6,21 @@ Page({
       userId: '12345678'
     },
     stats: {
-      works: 12,
-      likes: 86,
-      favorites: 5
+      works: 0,
+      likes: 0,
+      favorites: 0
     },
-    galleryList: [
-      {
-        id: 1,
-        prompt: '赛博朋克风格的未来城市',
-        time: '2天前',
-        likes: 12,
-        gradient: 'gradient-1'
-      },
-      {
-        id: 2,
-        prompt: '梦幻森林中的精灵',
-        time: '3天前',
-        likes: 8,
-        gradient: 'gradient-2'
-      },
-      {
-        id: 3,
-        prompt: '日落时分的海边风景',
-        time: '5天前',
-        likes: 15,
-        gradient: 'gradient-3'
-      },
-      {
-        id: 4,
-        prompt: '夜晚的霓虹街道',
-        time: '1周前',
-        likes: 20,
-        gradient: 'gradient-4'
-      }
-    ]
+    galleryList: []
   },
 
   onLoad() {
     this.checkLoginStatus();
+  },
+
+  onShow() {
+    if (this.data.isLoggedIn) {
+      this.loadUserImages();
+    }
   },
 
   checkLoginStatus() {
@@ -53,7 +30,86 @@ Page({
         isLoggedIn: true,
         userInfo: userInfo
       });
+      this.loadUserImages();
     }
+  },
+
+  loadUserImages() {
+    const { userId } = this.data.userInfo;
+    if (!userId) return;
+
+    console.log('开始加载用户图片, userId:', userId);
+    wx.showLoading({
+      title: '加载中...'
+    });
+
+    wx.cloud.database()
+      .collection('images')
+      .where({
+        userId: userId
+      })
+      .orderBy('createTime', 'desc')
+      .get()
+      .then(res => {
+        console.log('查询到的数据:', res);
+        wx.hideLoading();
+
+        const images = res.data.map(item => ({
+          id: item._id,
+          prompt: item.prompt,
+          time: this.formatTime(item.createTime),
+          imageUrl: item.imageUrl,
+          likes: 0
+        }));
+
+        console.log('处理后的图片列表:', images);
+
+        this.setData({
+          galleryList: images,
+          'stats.works': images.length
+        });
+
+        console.log('设置后的 galleryList:', this.data.galleryList);
+      })
+      .catch(err => {
+        wx.hideLoading();
+        console.error('加载图片失败:', err);
+        wx.showToast({
+          title: '加载失败',
+          icon: 'error'
+        });
+      });
+  },
+
+  formatTime(date) {
+    if (!date) return '';
+
+    const now = new Date();
+    const targetDate = new Date(date);
+    const diff = now - targetDate;
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days}天前`;
+    } else if (hours > 0) {
+      return `${hours}小时前`;
+    } else if (minutes > 0) {
+      return `${minutes}分钟前`;
+    } else {
+      return '刚刚';
+    }
+  },
+
+  onImageLoad(e) {
+    console.log('图片加载成功:', e.currentTarget.dataset.id);
+  },
+
+  onImageError(e) {
+    console.error('图片加载失败:', e.currentTarget.dataset.id, e.detail);
   },
 
   onLogin() {

@@ -5,20 +5,21 @@
         <t-icon name="magic" size="32rpx" color="#0052D9" />
         <text>描述你想创作的画面</text>
       </view>
-      <t-textarea
+      <textarea
         class="prompt-input"
         placeholder="试试描述：主角 + 在哪里 + 做什么 + 像什么风格？&#10;例如：一位美丽的女孩在樱花树下，手捧书卷，日系插画风格"
         value="{{prompt}}"
         bindinput="onPromptInput"
-        maxcharacter="500"
-        autosize="{{true}}"
+        maxlength="500"
+        auto-height="{{true}}"
+        adjust-position="{{true}}"
       />
     </view>
 
     <t-button
       theme="primary"
       size="large"
-      bindclick="onGetInspiration"
+      bindtap="onGetInspiration"
       class="inspiration-button"
       icon="lightbulb"
     >
@@ -34,7 +35,7 @@
           theme="{{item.selected ? 'primary' : 'default'}}"
           variant="{{item.selected ? 'dark' : 'outline'}}"
           class="style-tag"
-          bindclick="onStyleTagClick"
+          bindtap="onStyleTagClick"
           data-index="{{index}}"
         >
           {{item.name}}
@@ -47,20 +48,21 @@
         <t-icon name="close-circle" size="32rpx" color="#999" />
         <text>不想要的元素（可选）</text>
       </view>
-      <t-textarea
+      <textarea
         class="negative-input"
         placeholder="例如：不要文字、不要模糊、不要水印"
         value="{{negativePrompt}}"
         bindinput="onNegativePromptInput"
-        maxcharacter="200"
-        autosize="{{true}}"
+        maxlength="200"
+        auto-height="{{true}}"
+        adjust-position="{{true}}"
       />
     </view>
 
     <t-button
       theme="primary"
       size="large"
-      bindclick="onGenerate"
+      bindtap="onGenerate"
       class="generate-button"
       icon="wand"
     >
@@ -77,7 +79,8 @@
 
   <view class="generated" wx:else>
     <view class="generated-image">
-      <view class="image-placeholder gradient-1">
+      <image wx:if="{{generatedImage}}" src="{{generatedImage}}" class="image-display" mode="aspectFit" />
+      <view wx:else class="image-placeholder gradient-1">
         <t-icon name="image" size="96rpx" color="rgba(255, 255, 255, 0.3)" />
       </view>
     </view>
@@ -95,7 +98,7 @@
         theme="default"
         variant="outline"
         size="large"
-        bindclick="onRegenerate"
+        bindtap="onRegenerate"
         class="regenerate-button"
         icon="refresh"
       >
@@ -104,7 +107,7 @@
       <t-button
         theme="primary"
         size="large"
-        bindclick="onPublish"
+        bindtap="onPublish"
         class="publish-button"
         icon="send"
       >
@@ -116,7 +119,7 @@
       theme="default"
       variant="outline"
       size="large"
-      bindclick="onSaveDraft"
+      bindtap="onSaveDraft"
       class="save-draft-button"
       icon="save"
     >

@@ -49,9 +49,20 @@
 
     <view class="gallery-section">
       <text class="section-title">个人画廊</text>
-      <view class="image-grid">
+      <view class="image-grid" wx:if="{{galleryList.length > 0}}">
         <view class="image-card" wx:for="{{galleryList}}" wx:key="id">
-          <view class="image-placeholder {{item.gradient}}"></view>
+          <view wx:if="{{item.imageUrl}}" class="image-wrapper">
+            <image
+              src="{{item.imageUrl}}"
+              mode="aspectFill"
+              binderror="onImageError"
+              bindload="onImageLoad"
+              data-id="{{item.id}}"
+            />
+          </view>
+          <view wx:else class="image-placeholder gradient-1">
+            <t-icon name="image" size="96rpx" color="rgba(255, 255, 255, 0.3)" />
+          </view>
           <view class="image-info">
             <text class="image-prompt">{{item.prompt}}</text>
             <view class="card-footer">
@@ -63,6 +74,11 @@
             </view>
           </view>
         </view>
+      </view>
+      <view class="empty-state" wx:else>
+        <t-icon name="image" size="96rpx" color="#d1d5db" />
+        <text class="empty-text">还没有发布作品</text>
+        <text class="empty-desc">快去创作你的第一幅作品吧</text>
       </view>
     </view>
 

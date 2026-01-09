@@ -115,6 +115,11 @@
   justify-content: center;
 }
 
+.image-display {
+  width: 100%;
+  display: block;
+}
+
 .gradient-1 {
   background: linear-gradient(135deg, #c084fc 0%, #ec4899 50%, #ef4444 100%);
 }

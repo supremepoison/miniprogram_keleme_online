@@ -1,0 +1,9 @@
+{
+  "name": "publishImage",
+  "version": "1.0.0",
+  "description": "发布用户生成的图片",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}
