@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 画廊 - 首页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen pb-20">
+        <!-- Status Bar Placeholder -->
+        <div class="h-11 bg-white"></div>
+
+        <!-- Header -->
+        <header class="bg-white px-4 py-3 shadow-sm">
+            <h1 class="text-xl font-bold text-gray-900">AI 画廊</h1>
+        </header>
+
+        <!-- Image Grid -->
+        <div class="px-4 py-4">
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Image Card 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="aspect-square bg-gradient-to-br from-purple-400 via-pink-500 to-red-500"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600 line-clamp-2">赛博朋克风格的未来城市</p>
+                        <div class="flex items-center mt-2">
+                            <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">A</div>
+                            <span class="text-xs text-gray-500 ml-2">小明</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Card 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="aspect-square bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600 line-clamp-2">梦幻森林中的精灵</p>
+                        <div class="flex items-center mt-2">
+                            <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">B</div>
+                            <span class="text-xs text-gray-500 ml-2">小红</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Card 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="aspect-square bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600 line-clamp-2">日落时分的海边风景</p>
+                        <div class="flex items-center mt-2">
+                            <div class="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs">C</div>
+                            <span class="text-xs text-gray-500 ml-2">小李</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Card 4 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="aspect-square bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600 line-clamp-2">夜晚的霓虹街道</p>
+                        <div class="flex items-center mt-2">
+                            <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs">D</div>
+                            <span class="text-xs text-gray-500 ml-2">小王</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Card 5 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="aspect-square bg-gradient-to-br from-teal-400 via-emerald-500 to-cyan-600"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600 line-clamp-2">宁静的湖面倒影</p>
+                        <div class="flex items-center mt-2">
+                            <div class="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center text-white text-xs">E</div>
+                            <span class="text-xs text-gray-500 ml-2">小张</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Card 6 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="aspect-square bg-gradient-to-br from-rose-400 via-pink-500 to-fuchsia-600"></div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600 line-clamp-2">盛开的花海</p>
+                        <div class="flex items-center mt-2">
+                            <div class="w-6 h-6 rounded-full bg-rose-500 flex items-center justify-center text-white text-xs">F</div>
+                            <span class="text-xs text-gray-500 ml-2">小陈</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div class="flex justify-center mt-6 py-4">
+                <div class="flex items-center text-gray-400 text-sm">
+                    <svg class="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    正在加载更多...
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Action Button -->
+        <button class="fixed bottom-24 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white" style="background-color: #0052D9;">
+            <i class="fas fa-plus text-xl"></i>
+        </button>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
+            <div class="flex justify-around py-2">
+                <a href="#" class="flex flex-col items-center py-1 px-4">
+                    <i class="fas fa-home text-lg mb-1" style="color: #0052D9;"></i>
+                    <span class="text-xs font-medium" style="color: #0052D9;">首页</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-1 px-4">
+                    <i class="fas fa-user text-lg mb-1 text-gray-400"></i>
+                    <span class="text-xs text-gray-400">我的</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 画廊 - 创建图片</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen pb-20">
+        <!-- Status Bar Placeholder -->
+        <div class="h-11 bg-white"></div>
+
+        <!-- Header -->
+        <header class="bg-white px-4 py-3 shadow-sm flex items-center">
+            <button class="p-2 -ml-2">
+                <i class="fas fa-arrow-left text-gray-700"></i>
+            </button>
+            <h1 class="text-xl font-bold text-gray-900 ml-2">创建图片</h1>
+        </header>
+
+        <div id="app">
+            <!-- Not Generated State -->
+            <div id="not-generated" class="px-4 py-6">
+                <!-- Prompt Input -->
+                <div class="bg-white rounded-xl p-4 shadow-sm">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-magic mr-1" style="color: #0052D9;"></i>
+                        描述你想创作的画面
+                    </label>
+                    <textarea
+                        class="w-full h-32 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg resize-none text-gray-800 placeholder-gray-400 transition-all"
+                        placeholder="试试描述：主角 + 在哪里 + 做什么 + 像什么风格？&#10;例如：一位美丽的女孩在樱花树下，手捧书卷，日系插画风格"
+                    ></textarea>
+                </div>
+
+                <!-- Inspiration Button -->
+                <button class="w-full mt-4 py-3 px-6 rounded-xl font-medium text-white flex items-center justify-center" style="background-color: #0052D9;">
+                    <i class="fas fa-lightbulb mr-2"></i>
+                    获取灵感
+                </button>
+
+                <!-- Common Style Tags -->
+                <div class="mt-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">常用风格</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="px-4 py-2 rounded-full text-sm font-medium border-2" style="border-color: #0052D9; color: #0052D9;">
+                            写实
+                        </button>
+                        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-gray-300">
+                            动漫
+                        </button>
+                        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-gray-300">
+                            电影感
+                        </button>
+                        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-gray-300">
+                            梦幻
+                        </button>
+                        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-gray-300">
+                            水彩
+                        </button>
+                        <button class="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-gray-300">
+                            油画
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Negative Prompt (Optional) -->
+                <div class="mt-6">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-ban mr-1 text-gray-400"></i>
+                        不想要的元素（可选）
+                    </h3>
+                    <textarea
+                        class="w-full h-16 px-4 py-3 bg-white border border-gray-200 rounded-lg resize-none text-gray-800 placeholder-gray-400 text-sm"
+                        placeholder="例如：不要文字、不要模糊、不要水印"
+                    ></textarea>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="w-full mt-6 py-4 px-6 rounded-xl font-semibold text-white text-lg flex items-center justify-center shadow-lg" style="background-color: #0052D9;">
+                    <i class="fas fa-wand-magic-sparkles mr-2"></i>
+                    生成图片
+                </button>
+
+                <!-- Tips -->
+                <div class="mt-6 p-4 bg-blue-50 rounded-xl">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle mt-0.5 mr-2" style="color: #0052D9;"></i>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            提示词越详细，生成的图片越符合你的预期。尝试描述场景、人物、风格和细节。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generated State -->
+            <div id="generated" class="hidden px-4 py-6">
+                <!-- Generated Image -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="aspect-[4/5] bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 flex items-center justify-center">
+                        <i class="fas fa-image text-6xl text-white/30"></i>
+                    </div>
+                </div>
+
+                <!-- Prompt Display -->
+                <div class="mt-4 bg-white rounded-xl p-4 shadow-sm">
+                    <h3 class="text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-quote-left mr-1 text-gray-400"></i>
+                        提示词
+                    </h3>
+                    <p class="text-gray-800 leading-relaxed">
+                        一位美丽的女孩在樱花树下，手捧书卷，日系插画风格，柔和的光线，粉色的樱花飘落
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3 mt-6">
+                    <button class="flex-1 py-3 px-6 rounded-xl font-medium border-2 flex items-center justify-center" style="border-color: #0052D9; color: #0052D9;">
+                        <i class="fas fa-redo mr-2"></i>
+                        重新生成
+                    </button>
+                    <button class="flex-1 py-3 px-6 rounded-xl font-medium text-white flex items-center justify-center shadow-lg" style="background-color: #0052D9;">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        发布作品
+                    </button>
+                </div>
+
+                <!-- Save to Draft -->
+                <button class="w-full mt-3 py-3 px-6 rounded-xl font-medium border border-gray-200 text-gray-700 flex items-center justify-center">
+                    <i class="fas fa-save mr-2"></i>
+                    保存草稿
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
+            <div class="flex justify-around py-2">
+                <a href="#" class="flex flex-col items-center py-1 px-4">
+                    <i class="fas fa-home text-lg mb-1 text-gray-400"></i>
+                    <span class="text-xs text-gray-400">首页</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-1 px-4">
+                    <i class="fas fa-user text-lg mb-1" style="color: #0052D9;"></i>
+                    <span class="text-xs font-medium" style="color: #0052D9;">我的</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Parse URL parameters to determine generation state
+        const urlParams = new URLSearchParams(window.location.search);
+        const generated = urlParams.get('generated');
+
+        const notGeneratedDiv = document.getElementById('not-generated');
+        const generatedDiv = document.getElementById('generated');
+
+        if (generated === 'true') {
+            notGeneratedDiv.classList.add('hidden');
+            generatedDiv.classList.remove('hidden');
+        } else {
+            notGeneratedDiv.classList.remove('hidden');
+            generatedDiv.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

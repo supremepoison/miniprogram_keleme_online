@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 画廊 - 我的</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen pb-20">
+        <!-- Status Bar Placeholder -->
+        <div class="h-11 bg-white"></div>
+
+        <!-- Header -->
+        <header class="bg-white px-4 py-3 shadow-sm">
+            <h1 class="text-xl font-bold text-gray-900">我的</h1>
+        </header>
+
+        <div id="app">
+            <!-- Logged Out State -->
+            <div id="logged-out" class="flex flex-col items-center justify-center px-6" style="min-height: calc(852px - 11rem);">
+                <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-6">
+                    <i class="fas fa-user text-4xl text-gray-400"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-900 mb-2">欢迎来到 AI 画廊</h2>
+                <p class="text-gray-500 text-center mb-8">登录后可以保存和分享你的作品</p>
+                <button class="w-full max-w-xs py-3 px-6 rounded-full font-medium text-white shadow-lg flex items-center justify-center" style="background-color: #07C160;">
+                    <i class="fab fa-weixin text-xl mr-2"></i>
+                    微信一键登录
+                </button>
+            </div>
+
+            <!-- Logged In State -->
+            <div id="logged-in" class="hidden">
+                <!-- User Profile Section -->
+                <div class="bg-white mx-4 mt-4 rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center">
+                        <div class="w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                            <span class="text-2xl font-bold text-white">AI</span>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h2 class="text-xl font-semibold text-gray-900">AI 爱好者</h2>
+                            <p class="text-gray-500 text-sm">ID: 12345678</p>
+                        </div>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-cog text-gray-500"></i>
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex justify-around mt-6 pt-6 border-t border-gray-100">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold" style="color: #0052D9;">12</p>
+                            <p class="text-gray-500 text-sm mt-1">作品</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold" style="color: #0052D9;">86</p>
+                            <p class="text-gray-500 text-sm mt-1">获赞</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold" style="color: #0052D9;">5</p>
+                            <p class="text-gray-500 text-sm mt-1">收藏</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Gallery Section -->
+                <div class="px-4 mt-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">个人画廊</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- Gallery Item 1 -->
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                            <div class="aspect-square bg-gradient-to-br from-purple-400 via-pink-500 to-red-500"></div>
+                            <div class="p-3">
+                                <p class="text-sm text-gray-600 line-clamp-2">赛博朋克风格的未来城市</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <span class="text-xs text-gray-400">2天前</span>
+                                    <div class="flex items-center text-gray-400 text-xs">
+                                        <i class="fas fa-heart mr-1"></i>
+                                        <span>12</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gallery Item 2 -->
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                            <div class="aspect-square bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600"></div>
+                            <div class="p-3">
+                                <p class="text-sm text-gray-600 line-clamp-2">梦幻森林中的精灵</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <span class="text-xs text-gray-400">3天前</span>
+                                    <div class="flex items-center text-gray-400 text-xs">
+                                        <i class="fas fa-heart mr-1"></i>
+                                        <span>8</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gallery Item 3 -->
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                            <div class="aspect-square bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600"></div>
+                            <div class="p-3">
+                                <p class="text-sm text-gray-600 line-clamp-2">日落时分的海边风景</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <span class="text-xs text-gray-400">5天前</span>
+                                    <div class="flex items-center text-gray-400 text-xs">
+                                        <i class="fas fa-heart mr-1"></i>
+                                        <span>15</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gallery Item 4 -->
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                            <div class="aspect-square bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900"></div>
+                            <div class="p-3">
+                                <p class="text-sm text-gray-600 line-clamp-2">夜晚的霓虹街道</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <span class="text-xs text-gray-400">1周前</span>
+                                    <div class="flex items-center text-gray-400 text-xs">
+                                        <i class="fas fa-heart mr-1"></i>
+                                        <span>20</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
+            <div class="flex justify-around py-2">
+                <a href="#" class="flex flex-col items-center py-1 px-4">
+                    <i class="fas fa-home text-lg mb-1 text-gray-400"></i>
+                    <span class="text-xs text-gray-400">首页</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-1 px-4">
+                    <i class="fas fa-user text-lg mb-1" style="color: #0052D9;"></i>
+                    <span class="text-xs font-medium" style="color: #0052D9;">我的</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Parse URL parameters to determine login state
+        const urlParams = new URLSearchParams(window.location.search);
+        const loggedOut = urlParams.get('loggedOut');
+
+        const loggedOutDiv = document.getElementById('logged-out');
+        const loggedInDiv = document.getElementById('logged-in');
+
+        if (loggedOut === 'true') {
+            loggedOutDiv.classList.remove('hidden');
+            loggedInDiv.classList.add('hidden');
+        } else {
+            loggedOutDiv.classList.add('hidden');
+            loggedInDiv.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
