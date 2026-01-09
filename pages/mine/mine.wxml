@@ -1,0 +1,67 @@
+<view class="mine-container">
+  <view class="logged-out" wx:if="{{!isLoggedIn}}">
+    <view class="avatar-placeholder">
+      <t-icon name="user" size="96rpx" color="#d1d5db" />
+    </view>
+    <text class="welcome-title">欢迎来到 AI 画廊</text>
+    <text class="welcome-desc">登录后可以保存和分享你的作品</text>
+    <t-button
+      theme="primary"
+      size="large"
+      bindclick="onLogin"
+      class="login-button"
+      icon="logo-wechat"
+    >
+      微信一键登录
+    </t-button>
+  </view>
+
+  <view class="logged-in" wx:else>
+    <view class="user-profile">
+      <view class="profile-header">
+        <view class="user-avatar">
+          <text class="avatar-text">AI</text>
+        </view>
+        <view class="user-info">
+          <text class="user-name">{{userInfo.nickName}}</text>
+          <text class="user-id">ID: {{userInfo.userId}}</text>
+        </view>
+        <t-icon name="setting" size="48rpx" color="#999" class="settings-icon" />
+      </view>
+
+      <view class="stats">
+        <view class="stat-item">
+          <text class="stat-number">{{stats.works}}</text>
+          <text class="stat-label">作品</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-number">{{stats.likes}}</text>
+          <text class="stat-label">获赞</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-number">{{stats.favorites}}</text>
+          <text class="stat-label">收藏</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="gallery-section">
+      <text class="section-title">个人画廊</text>
+      <view class="image-grid">
+        <view class="image-card" wx:for="{{galleryList}}" wx:key="id">
+          <view class="image-placeholder {{item.gradient}}"></view>
+          <view class="image-info">
+            <text class="image-prompt">{{item.prompt}}</text>
+            <view class="card-footer">
+              <text class="upload-time">{{item.time}}</text>
+              <view class="like-info">
+                <t-icon name="heart" size="24rpx" color="#999" />
+                <text class="like-count">{{item.likes}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

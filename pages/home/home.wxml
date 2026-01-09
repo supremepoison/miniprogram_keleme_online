@@ -1,0 +1,28 @@
+<view class="home-container">
+  <view class="image-grid">
+    <view class="image-card" wx:for="{{imageList}}" wx:key="id">
+      <view class="image-placeholder {{item.gradient}}"></view>
+      <view class="image-info">
+        <text class="image-prompt">{{item.prompt}}</text>
+        <view class="user-info">
+          <view class="avatar {{item.avatarColor}}">
+            <text class="avatar-text">{{item.author.charAt(0)}}</text>
+          </view>
+          <text class="author-name">{{item.author}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading-more" wx:if="{{loading}}">
+    <t-loading theme="circular" size="40rpx" text="正在加载更多..." />
+  </view>
+
+  <t-fab
+    bindclick="onCreateClick"
+    icon="add"
+    text=""
+    theme="primary"
+    custom-style="position: fixed; bottom: 200rpx; right: 32rpx;"
+  />
+</view>

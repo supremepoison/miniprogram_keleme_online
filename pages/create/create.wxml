@@ -1,0 +1,126 @@
+<view class="create-container">
+  <view class="not-generated" wx:if="{{!isGenerated}}">
+    <view class="input-section">
+      <view class="section-label">
+        <t-icon name="magic" size="32rpx" color="#0052D9" />
+        <text>描述你想创作的画面</text>
+      </view>
+      <t-textarea
+        class="prompt-input"
+        placeholder="试试描述：主角 + 在哪里 + 做什么 + 像什么风格？&#10;例如：一位美丽的女孩在樱花树下，手捧书卷，日系插画风格"
+        value="{{prompt}}"
+        bindinput="onPromptInput"
+        maxcharacter="500"
+        autosize="{{true}}"
+      />
+    </view>
+
+    <t-button
+      theme="primary"
+      size="large"
+      bindclick="onGetInspiration"
+      class="inspiration-button"
+      icon="lightbulb"
+    >
+      获取灵感
+    </t-button>
+
+    <view class="style-section">
+      <text class="section-title">常用风格</text>
+      <view class="style-tags">
+        <t-tag
+          wx:for="{{styleTags}}"
+          wx:key="name"
+          theme="{{item.selected ? 'primary' : 'default'}}"
+          variant="{{item.selected ? 'dark' : 'outline'}}"
+          class="style-tag"
+          bindclick="onStyleTagClick"
+          data-index="{{index}}"
+        >
+          {{item.name}}
+        </t-tag>
+      </view>
+    </view>
+
+    <view class="negative-section">
+      <view class="section-label">
+        <t-icon name="close-circle" size="32rpx" color="#999" />
+        <text>不想要的元素（可选）</text>
+      </view>
+      <t-textarea
+        class="negative-input"
+        placeholder="例如：不要文字、不要模糊、不要水印"
+        value="{{negativePrompt}}"
+        bindinput="onNegativePromptInput"
+        maxcharacter="200"
+        autosize="{{true}}"
+      />
+    </view>
+
+    <t-button
+      theme="primary"
+      size="large"
+      bindclick="onGenerate"
+      class="generate-button"
+      icon="wand"
+    >
+      生成图片
+    </t-button>
+
+    <view class="tips-section">
+      <view class="tips-content">
+        <t-icon name="info-circle" size="32rpx" color="#0052D9" />
+        <text class="tips-text">提示词越详细，生成的图片越符合你的预期。尝试描述场景、人物、风格和细节。</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="generated" wx:else>
+    <view class="generated-image">
+      <view class="image-placeholder gradient-1">
+        <t-icon name="image" size="96rpx" color="rgba(255, 255, 255, 0.3)" />
+      </view>
+    </view>
+
+    <view class="prompt-display">
+      <view class="prompt-label">
+        <t-icon name="quote-left" size="32rpx" color="#ccc" />
+        <text>提示词</text>
+      </view>
+      <text class="prompt-text">{{prompt}}</text>
+    </view>
+
+    <view class="action-buttons">
+      <t-button
+        theme="default"
+        variant="outline"
+        size="large"
+        bindclick="onRegenerate"
+        class="regenerate-button"
+        icon="refresh"
+      >
+        重新生成
+      </t-button>
+      <t-button
+        theme="primary"
+        size="large"
+        bindclick="onPublish"
+        class="publish-button"
+        icon="send"
+      >
+        发布作品
+      </t-button>
+    </view>
+
+    <t-button
+      theme="default"
+      variant="outline"
+      size="large"
+      bindclick="onSaveDraft"
+      class="save-draft-button"
+      icon="save"
+    >
+      保存草稿
+    </t-button>
+  </view>
+</view>
