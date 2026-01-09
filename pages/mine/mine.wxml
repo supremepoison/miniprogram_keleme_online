@@ -8,7 +8,7 @@
     <t-button
       theme="primary"
       size="large"
-      bindclick="onLogin"
+      bindtap="onLogin"
       class="login-button"
       icon="logo-wechat"
     >
@@ -19,14 +19,16 @@
   <view class="logged-in" wx:else>
     <view class="user-profile">
       <view class="profile-header">
-        <view class="user-avatar">
-          <text class="avatar-text">AI</text>
+        <view class="user-avatar-wrapper">
+          <view class="user-avatar">
+            <image wx:if="{{userInfo.avatar}}" src="{{userInfo.avatar}}" class="avatar-image" mode="aspectFill" />
+            <text wx:else class="avatar-text">AI</text>
+          </view>
+          <t-icon name="edit" size="32rpx" color="#666" class="avatar-edit-icon" bindtap="onEditAvatar" />
         </view>
         <view class="user-info">
-          <text class="user-name">{{userInfo.nickName}}</text>
-          <text class="user-id">ID: {{userInfo.userId}}</text>
+          <text class="user-name" bindtap="onEditNickname">{{userInfo.nickName}}</text>
         </view>
-        <t-icon name="setting" size="48rpx" color="#999" class="settings-icon" />
       </view>
 
       <view class="stats">
@@ -62,6 +64,12 @@
           </view>
         </view>
       </view>
+    </view>
+
+    <view class="logout-section">
+      <t-button theme="default" size="large" bindtap="onLogout" class="logout-button">
+        退出登录
+      </t-button>
     </view>
   </view>
 </view>
